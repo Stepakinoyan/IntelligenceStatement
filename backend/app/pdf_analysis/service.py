@@ -4,19 +4,17 @@ from app.pdf_analysis.utils import extract_text_with_ocr, analysis_pdf_files
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.pdf_analysis.dao import StatementsDAO
 
+
 class StatementService:
     @classmethod
-    async def analysis_pdf_file(self, file: UploadFile, session: AsyncSession):
+    async def analysis_pdf_file(cls, file: UploadFile, session: AsyncSession):
         # try:
-            file_path = f"/mnt/d/Stepa/IntelligenceStatement/backend/app/pdf_analysis/pdfs/{file.filename}"
+            file_bytes = await file.read()
 
-            async with aiofiles.open(file_path, "wb") as f:
-                await f.write(file.file.read())
-
-            text = extract_text_with_ocr(pdf_path=file_path)
+            text = extract_text_with_ocr(pdf_bytes=file_bytes)
 
             analyse = await analysis_pdf_files(text)
-            await StatementsDAO.add(analyse, session=session)
+            await StatementsDAO.add(analyse=analyse, session=session)
 
             return analyse
         # except Exception:
@@ -24,3 +22,14 @@ class StatementService:
         #         detail="Something went wrong...",
         #         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         #     )
+
+    @classmethod
+    async def get_analyse_by_id(cls, id: int, session: AsyncSession):
+        item = await StatementsDAO.get_analyse_by_id(id=id, session=session)
+
+        if not item:
+            raise HTTPException(
+                detail="Analyse is not found.", status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        return item

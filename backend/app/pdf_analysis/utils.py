@@ -1,18 +1,17 @@
 import json
-from pdf2image import convert_from_path
+from pdf2image import convert_from_bytes
 import pytesseract
 from httpx import AsyncClient
 
 from app.core.config import settings
 
 
-def extract_text_with_ocr(pdf_path):
-    images = convert_from_path(pdf_path)
+def extract_text_with_ocr(pdf_bytes: bytes):
+    images = convert_from_bytes(pdf_bytes)
     text = "\n".join(
         [pytesseract.image_to_string(image, lang="rus") for image in images]
     )
     return text
-
 
 async def analysis_pdf_files(text: str):
     async with AsyncClient(timeout=300) as client:
@@ -54,8 +53,8 @@ async def analysis_pdf_files(text: str):
         }
 
         response = await client.post(url, headers=headers, json=data)
-        data = json.loads(response.json()["result"]["response"].strip("```").lstrip("json"))
-        
-        
+        data = json.loads(
+            response.json()["result"]["response"].strip("```").lstrip("json")
+        )
+
         return data
-    
