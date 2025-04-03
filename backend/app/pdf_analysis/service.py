@@ -10,6 +10,10 @@ from app.pdf_analysis.exceptions import SomethingWentWrongException, AnalyseIsNo
 
 class StatementService:
     @classmethod
+    async def get_all_analysises(cls, session: AsyncSession):
+        return await StatementsDAO.get_all_analysises(session=session)
+        
+    @classmethod
     async def analysis_pdf_file(cls, file: UploadFile, session: AsyncSession):
         try:
             file_bytes = await file.read()

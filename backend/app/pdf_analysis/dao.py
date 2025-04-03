@@ -8,6 +8,14 @@ class StatementsDAO:
     model = Statement
 
     @classmethod
+    async def get_all_analysises(cls, session: AsyncSession):
+        items = select(cls.model.create_at, cls.model.id)
+        items = await session.execute(items)
+
+        return items.scalars().all()
+    
+
+    @classmethod
     async def add(cls, session: AsyncSession, analyse: dict):
         try:
             query = insert(cls.model).values(data=analyse)

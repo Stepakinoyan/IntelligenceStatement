@@ -7,6 +7,12 @@ from app.pdf_analysis.models import StatementDTO
 router = APIRouter(prefix="/pdf", tags=["PDFS"])
 
 
+@router.get("/all", status_code=status.HTTP_200_OK)
+async def get_all_analysises(session: AsyncSession = Depends(get_session)
+):
+    return await StatementService.get_all_analysises(session=session)
+
+
 @router.post("/analyse/", status_code=status.HTTP_200_OK)
 async def get_pdf_analyse(
     file: UploadFile = File(...), session: AsyncSession = Depends(get_session)
