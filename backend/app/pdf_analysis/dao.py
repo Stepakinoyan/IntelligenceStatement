@@ -1,4 +1,4 @@
-from sqlalchemy import insert, select
+from sqlalchemy import delete, insert, select
 from app.pdf_analysis.models import Statement
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import SQLAlchemyError
@@ -22,3 +22,12 @@ class StatementsDAO:
         result = await session.execute(item)
 
         return result.scalar_one_or_none()
+
+    @classmethod
+    async def delete_analyse_by_id(cls, id: int, session: AsyncSession):
+        try:
+            query = delete(cls.model).filter_by(id=id)
+            await session.execute(query)
+            await session.commit()    
+        except SQLAlchemyError:
+            await session.rollback()

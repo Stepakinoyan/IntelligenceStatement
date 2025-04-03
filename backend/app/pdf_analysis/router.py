@@ -17,3 +17,12 @@ async def get_pdf_analyse(
 @router.get("/{id}", response_model=StatementDTO)
 async def get_analyse_by_id(id: int, session: AsyncSession = Depends(get_session)):
     return await StatementService.get_analyse_by_id(id=id, session=session)
+
+@router.delete("/delete/{id}")
+async def delete_analyse_by_id(id: int, session: AsyncSession = Depends(get_session)):
+    return await StatementService.delete_analyse_by_id(id=id, session=session)
+
+
+@router.get("/download/{id}")
+async def download_analyse_by_id(id: int, session: AsyncSession = Depends(get_session)):
+    return await StatementService.download_analyse_by_id(id=id, session=session)
