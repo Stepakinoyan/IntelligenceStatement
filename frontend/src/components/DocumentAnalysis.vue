@@ -6,10 +6,19 @@
     </p>
     <table class="table table-striped">
       <tbody>
-        <tr>
-          <td>data</td>
-          <td>data</td>
-          <td>data</td>
+        <tr
+          v-for="([key, value], index) in Object.entries(data.data)"
+          :key="index"
+        >
+          <td>
+            <strong>{{ key }}</strong>
+          </td>
+          <td v-if="Array.isArray(value)">
+            <ul>
+              <li v-for="(item, i) in value" :key="i">{{ item }}</li>
+            </ul>
+          </td>
+          <td v-else>{{ value }}</td>
         </tr>
       </tbody>
     </table>

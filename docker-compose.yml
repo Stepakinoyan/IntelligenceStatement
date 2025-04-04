@@ -27,7 +27,23 @@ services:
         condition: service_healthy
     env_file:
       - .env
-      
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000/
+    # command: "nginx -g daemon off;"
+    volumes:
+      - frontend_data:/usr/share/nginx/html
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
+  frontend_data:

@@ -50,11 +50,11 @@ const handleDrop = async (e: DragEvent) => {
 };
 
 const processFile = async (file: File) => {
+  console.log("File in processFile:", file);
   if (file.type !== "application/pdf") {
     alert("Пожалуйста, загрузите файл в формате PDF");
     return;
   }
-
   try {
     isUploading.value = true;
     const documentId = await uploadDocument(file, (progress: number) => {
@@ -68,7 +68,6 @@ const processFile = async (file: File) => {
     isUploading.value = false;
     uploadProgress.value = 0;
   }
-  emit("upload-success", 1);
 };
 </script>
 

@@ -12,7 +12,7 @@ class StatementsDAO:
         items = select(cls.model.create_at, cls.model.id)
         items = await session.execute(items)
 
-        return items.scalars().all()
+        return items.mappings().all()
     
 
     @classmethod

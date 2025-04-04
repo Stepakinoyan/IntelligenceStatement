@@ -6,7 +6,6 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Название документа</th>
           <th scope="col">Дата загрузки документа</th>
         </tr>
       </thead>
@@ -18,8 +17,7 @@
           class="document-item"
         >
           <td>{{ doc.id }}</td>
-          <td>{{ doc.name }}</td>
-          <td>{{ formatDate(doc.uploadDate) }}</td>
+          <td>{{ formatDate(doc.create_at) }}</td>
         </tr>
       </tbody>
     </table>
@@ -44,3 +42,9 @@ const formatDate = (date: Date) => {
   return new Date(date).toLocaleDateString();
 };
 </script>
+
+<style>
+.document-item {
+  cursor: pointer;
+}
+</style>

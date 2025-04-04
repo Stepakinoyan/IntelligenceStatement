@@ -1,4 +1,5 @@
-from typing import Any
+from typing import Annotated, Any
+from pydantic import AnyUrl, BeforeValidator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic_core import MultiHostUrl
 
@@ -21,7 +22,11 @@ class Settings(BaseSettings):
     ACCOUNT_ID: str
     API_TOKEN: str
     MODEL: str
-
+    BACKEND_CORS_ORIGINS: Annotated[
+        list[AnyUrl] | str, BeforeValidator(parse_cors)
+    ] = []
+    FRONTEND: str
+    
     model_config = SettingsConfigDict(
         env_file="../.env",
         env_ignore_empty=True,
@@ -38,6 +43,12 @@ class Settings(BaseSettings):
             port=self.POSTGRES_PORT,
             path=self.POSTGRES_DB,
         )
+    
+    @property
+    def all_cors_origins(self) -> list[str]:
+        return [str(origin).rstrip("/") for origin in self.BACKEND_CORS_ORIGINS] + [
+            self.FRONTEND
+        ]
 
 
 settings = Settings()
