@@ -17,11 +17,11 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
-    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 5433"
+    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 9000"
     volumes:
       - .:/app
     ports:
-      - "5555:8000"
+      - "8000:9000"
     depends_on:
       db:
         condition: service_healthy
@@ -35,11 +35,9 @@ services:
     volumes:
       - frontend_data:/usr/share/nginx/html
     ports:
-      - "80:5554"
+      - "5173:80"
     depends_on:
       - api
-    env_file:
-      - .env
 
 volumes:
   postgres_data:

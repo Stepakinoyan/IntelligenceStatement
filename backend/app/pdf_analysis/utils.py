@@ -13,6 +13,7 @@ def extract_text_with_ocr(pdf_bytes: bytes):
     )
     return text
 
+
 async def analysis_pdf_files(text: str):
     async with AsyncClient(timeout=300) as client:
         url = f"https://api.cloudflare.com/client/v4/accounts/{settings.ACCOUNT_ID}/ai/run/{settings.MODEL}"

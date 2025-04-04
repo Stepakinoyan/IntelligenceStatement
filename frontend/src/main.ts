@@ -5,6 +5,8 @@ import router from "./router";
 import "./scss/styles.scss";
 // import * as bootstrap from "bootstrap";
 
+console.log(import.meta.env.API_URL)
+
 const app = createApp(App);
 
 app.use(createPinia());

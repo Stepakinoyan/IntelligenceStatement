@@ -10,11 +10,12 @@ export interface DocumentAnalysisData {
 }
 
 export function useApi() {
-  const apiUrl = "http://localhost:8000";
-
+  const apiUrl = import.meta.env.VITE_API_URL || "/api";
+  
   const fetchRecentDocuments = async (): Promise<DocumentPreview[]> => {
     try {
-      const response = await axios.get(`${apiUrl}/pdf/all`);
+      console.log(apiUrl);
+      const response = await axios.get(`http://localhost:9000/pdf/all`);
       return response.data;
     } catch (error) {
       console.error("Error fetching document analysis:", error);
@@ -37,7 +38,6 @@ export function useApi() {
   ): Promise<string> => {
     const formData = new FormData();
     formData.append("file", file);
-    console.log(file);
 
     try {
       const response = await axios.post(`${apiUrl}/pdf/analyse/`, formData, {

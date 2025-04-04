@@ -13,7 +13,6 @@ class StatementsDAO:
         items = await session.execute(items)
 
         return items.mappings().all()
-    
 
     @classmethod
     async def add(cls, session: AsyncSession, analyse: dict):
@@ -36,6 +35,6 @@ class StatementsDAO:
         try:
             query = delete(cls.model).filter_by(id=id)
             await session.execute(query)
-            await session.commit()    
+            await session.commit()
         except SQLAlchemyError:
             await session.rollback()
