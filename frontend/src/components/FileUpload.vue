@@ -63,7 +63,7 @@ const processFile = async (file: File) => {
     emit("upload-success", documentId);
   } catch (error) {
     console.error("Ошибка загрузки файла:", error);
-    alert("Произошла ошибка при загрузке файла");
+    // alert("Произошла ошибка при загрузке файла");
   } finally {
     isUploading.value = false;
     uploadProgress.value = 0;

@@ -10,11 +10,11 @@ export interface DocumentAnalysisData {
 }
 
 export function useApi() {
-  const apiUrl = "http://localhost:5555/";
+  const apiUrl = "http://localhost:8000";
 
   const fetchRecentDocuments = async (): Promise<DocumentPreview[]> => {
     try {
-      const response = await axios.get(`http://localhost:5555/pdf/alls`);
+      const response = await axios.get(`${apiUrl}/pdf/all`);
       return response.data;
     } catch (error) {
       console.error("Error fetching document analysis:", error);
