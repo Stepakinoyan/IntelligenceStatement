@@ -26,7 +26,7 @@ class Settings(BaseSettings):
         list[AnyUrl] | str, BeforeValidator(parse_cors)
     ] = []
     FRONTEND: str
-    
+
     model_config = SettingsConfigDict(
         env_file="../.env",
         env_ignore_empty=True,
@@ -43,7 +43,7 @@ class Settings(BaseSettings):
             port=self.POSTGRES_PORT,
             path=self.POSTGRES_DB,
         )
-    
+
     @property
     def all_cors_origins(self) -> list[str]:
         return [str(origin).rstrip("/") for origin in self.BACKEND_CORS_ORIGINS] + [

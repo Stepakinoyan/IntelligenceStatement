@@ -14,7 +14,7 @@ export function useApi() {
 
   const fetchRecentDocuments = async (): Promise<DocumentPreview[]> => {
     try {
-      const response = await axios.get(`${apiUrl}/pdf/all`);
+      const response = await axios.get(`${apiUrl}/statements/all`);
       return response.data;
     } catch (error) {
       console.error("Error fetching document analysis:", error);
@@ -24,7 +24,7 @@ export function useApi() {
 
   const deleteDocumentById = async (documentId: string): Promise<void> => {
     try {
-      await axios.delete(`${apiUrl}/pdf/delete/${documentId}`);
+      await axios.delete(`${apiUrl}/statements/delete/${documentId}`);
     } catch (error) {
       console.error("Ошибка при удалении документа:", error);
       throw error;
@@ -66,7 +66,7 @@ export function useApi() {
     documentId: string,
   ): Promise<DocumentAnalysisData> => {
     try {
-      const response = await axios.get(`${apiUrl}/pdf/${documentId}`);
+      const response = await axios.get(`${apiUrl}/statements/document/${documentId}`);
       return response.data;
     } catch (error) {
       console.error("Error fetching document analysis:", error);
@@ -79,7 +79,7 @@ export function useApi() {
   ): Promise<void> => {
     try {
       const response = await axios.get(
-        `${apiUrl}/pdf/download/${documentId}?type=${type}`,
+        `${apiUrl}/download/${documentId}?type=${type}`,
         {
           responseType: "blob",
         },
